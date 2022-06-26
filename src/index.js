@@ -4,7 +4,7 @@ import './index.css';
 import { times } from 'lodash'
 
 const LEN_WORDS = 5;
-const NUM_ROWS = 6;
+const MAX_GUESSES = 6;
 
 class Tile extends React.Component {
   render() {
@@ -36,16 +36,16 @@ class Game extends React.Component {
       // TODO randomize initialization of answer
       answer: 'salad',
       // TODO remove test array
-      guesses: Array(NUM_ROWS).fill(''),
+      guesses: Array(MAX_GUESSES).fill(''),
       // guesses: ["abcde", "fghij", "klmno", "pqrst", "uvwxy", "zabcd"],
       currentGuessIndex: 0,
     };
   }
 
   handleKeyboardInput(event) {
-    if ((/[a-zA-Z]/).test(event.key)) {
+    const currentGuessIndex = this.state.currentGuessIndex;
+    if (currentGuessIndex < MAX_GUESSES && (/[a-zA-Z]/).test(event.key)) {
       const guesses = this.state.guesses.slice();
-      const currentGuessIndex = this.state.currentGuessIndex;
       if (guesses[currentGuessIndex].length < LEN_WORDS) {
         guesses[currentGuessIndex] += event.key.toLowerCase();
         console.log(guesses);
@@ -57,9 +57,9 @@ class Game extends React.Component {
   }
 
   handleBackspace(event) {
-    if (event.key === 'Backspace') {
+    const currentGuessIndex = this.state.currentGuessIndex;
+    if (currentGuessIndex < MAX_GUESSES && event.key === 'Backspace') {
       const guesses = this.state.guesses.slice();
-      const currentGuessIndex = this.state.currentGuessIndex;
       if (guesses[currentGuessIndex].length > 0) {
         guesses[currentGuessIndex] = guesses[currentGuessIndex].slice(0, -1);
         console.log(guesses);
@@ -84,7 +84,7 @@ class Game extends React.Component {
     return (
       <>
         <div onKeyPress={(event) => {this.handleKeyboardInput(event)}} onKeyDown={(event) => {this.handleBackspace(event)}}>
-          {times(NUM_ROWS, i =>
+          {times(MAX_GUESSES, i =>
             <Row key={i} guess={this.state.guesses[i]}/>
           )}
         </div>
