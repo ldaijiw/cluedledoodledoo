@@ -9,10 +9,10 @@ const MAX_GUESSES = 6;
 class Tile extends React.Component {
   render() {
     return (
-      <button className="tile" style={{backgroundColor: this.props.color === 'green' ? '#090'
-                                                        : this.props.color === 'yellow' ? '#FF0'
-                                                        : '#FFF'
-                                      }}
+      <button className="tile"
+        style={{ backgroundColor: this.props.color === 'green' ? '#090'
+                                : this.props.color === 'yellow' ? '#FF0'
+                                : '#FFF' }}
       >
         {this.props.char}
       </button>
@@ -100,12 +100,26 @@ class Game extends React.Component {
   }
 
   handleSubmitGuess() {
+    const guesses = this.state.guesses.slice();
     const currentGuessIndex = this.state.currentGuessIndex;
-    const currentGuess = this.state.guesses[this.state.currentGuessIndex].slice();
-    if (currentGuess.length === LEN_WORDS) {
-      this.setState({
-        currentGuessIndex: currentGuessIndex + 1
-      })
+    if (currentGuessIndex < MAX_GUESSES && guesses[currentGuessIndex].length === LEN_WORDS) {
+      if (guesses[currentGuessIndex] === this.state.answer) {
+        // game is won
+        // TODO replace alert with something better, that also enables Tile colors to update
+        alert('Congrats, you win!');
+        // hack to disable further interactions
+        this.setState({
+          currentGuessIndex: MAX_GUESSES
+        })  
+      } else {
+        if (currentGuessIndex+1 === MAX_GUESSES) {
+          // game is lost
+          alert(`Unlucky. The answer is ${this.state.answer}`)
+        }
+        this.setState({
+          currentGuessIndex: currentGuessIndex + 1
+        })
+      }
     }
   }
 
