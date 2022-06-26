@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { times } from 'lodash'
+import { sample, times } from 'lodash'
 
 const LEN_WORDS = 5;
 const MAX_GUESSES = 6;
+
+const VALID_ANSWERS = require('./data/answers');
+const VALID_GUESSES = require('./data/guesses');
 
 class Tile extends React.Component {
   render() {
@@ -63,7 +66,7 @@ class Game extends React.Component {
     super(props);
     this.state = {
       // TODO randomize initialization of answer
-      answer: 'salad',
+      answer: sample(VALID_ANSWERS),
       // TODO remove test array
       guesses: Array(MAX_GUESSES).fill(''),
       // guesses: ["abcde", "fghij", "klmno", "pqrst", "uvwxy", "zabcd"],
@@ -102,7 +105,10 @@ class Game extends React.Component {
   handleSubmitGuess() {
     const guesses = this.state.guesses.slice();
     const currentGuessIndex = this.state.currentGuessIndex;
-    if (currentGuessIndex < MAX_GUESSES && guesses[currentGuessIndex].length === LEN_WORDS) {
+    if (currentGuessIndex < MAX_GUESSES &&
+        guesses[currentGuessIndex].length === LEN_WORDS &&
+        VALID_GUESSES.has(guesses[currentGuessIndex])
+    ) {
       if (guesses[currentGuessIndex] === this.state.answer) {
         // game is won
         // TODO replace alert with something better, that also enables Tile colors to update
