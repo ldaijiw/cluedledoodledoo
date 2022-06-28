@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/OmerBaddour/cluedledoodledoo/issues"
   },
-  "homepage": "https://github.com/OmerBaddour/cluedledoodledoo#readme"
+  "homepage": "https://github.com/OmerBaddour/cluedledoodledoo#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }
