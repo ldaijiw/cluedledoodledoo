@@ -7,12 +7,12 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 const VALID_ANSWERS = fs
-  .readFileSync("data/answers.txt")
+  .readFileSync("server/data/answers.txt")
   .toString()
   .split("\n");
 
 const VALID_GUESSES = fs
-  .readFileSync("data/guesses.txt")
+  .readFileSync("server/data/guesses.txt")
   .toString()
   .split("\n");
 
