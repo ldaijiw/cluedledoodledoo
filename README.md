@@ -1,6 +1,6 @@
-# Wordle
+# Cluedledoodledoo
 
-This started out as an attempt to re-create [Wordle](https://www.nytimes.com/games/wordle/index.html) as a way to improve my full-stack skills. I then had an idea for a fun type of twist -- trading guesses for clues. I present to you, Cluedle.
+This started out as an attempt to re-create [Wordle](https://www.nytimes.com/games/wordle/index.html) as a way to improve my full-stack skills. I then had an idea for a fun type of twist -- trading guesses for clues. I present to you, Cluedledoodledoo.
 
 # Data
 
