@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { sample, times } from "lodash";
+import axios from "axios";
 
 const LEN_WORDS = 5;
 const MAX_GUESSES = 6;
 
 // hack to mitigate complications of file systems
-const VALID_ANSWERS = require("./data/answers");
-const VALID_GUESSES = require("./data/guesses");
+// const VALID_ANSWERS = require("./data/answers");
+// const VALID_GUESSES = require("./data/guesses");
 
 class Tile extends React.Component {
   render() {
@@ -72,105 +73,104 @@ class Row extends React.Component {
   }
 }
 
-class Game extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      answer: sample(VALID_ANSWERS),
-      guesses: Array(MAX_GUESSES).fill(""),
-      currentGuessIndex: 0,
-    };
-  }
+function Game() {
+  const [validGuesses, setValidGuesses] = useState(undefined);
+  const [answer, setAnswer] = useState("");
+  const [guesses, setGuesses] = useState(Array(MAX_GUESSES).fill(""));
+  const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
 
-  handleKeyboardInput(event) {
-    const currentGuessIndex = this.state.currentGuessIndex;
+  useEffect(() => {
+    axios.get("/validAnswers").then((res) => {
+      setAnswer(sample(res.data.validAnswers));
+    });
+
+    axios.get("/validGuesses").then((res) => {
+      const setAnswers = new Set(res.data.validGuesses);
+      setValidGuesses(setAnswers);
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  const handleKeyboardInput = (event) => {
     if (currentGuessIndex < MAX_GUESSES && /[a-zA-Z]/.test(event.key)) {
-      const guesses = this.state.guesses.slice();
       if (guesses[currentGuessIndex].length < LEN_WORDS) {
-        guesses[currentGuessIndex] += event.key.toLowerCase();
-        console.log(guesses);
-        this.setState({
-          guesses: guesses,
-        });
+        const guessesCopy = guesses.slice();
+        guessesCopy[currentGuessIndex] += event.key.toLowerCase();
+        setGuesses(guessesCopy);
       }
     }
-  }
+  };
 
-  handleBackspace(event) {
-    const currentGuessIndex = this.state.currentGuessIndex;
+  const handleBackspace = (event) => {
     if (currentGuessIndex < MAX_GUESSES && event.key === "Backspace") {
-      const guesses = this.state.guesses.slice();
       if (guesses[currentGuessIndex].length > 0) {
-        guesses[currentGuessIndex] = guesses[currentGuessIndex].slice(0, -1);
-        console.log(guesses);
-        this.setState({
-          guesses: guesses,
-        });
+        const guessesCopy = guesses.slice();
+        guessesCopy[currentGuessIndex] = guesses[currentGuessIndex].slice(
+          0,
+          -1
+        );
+        setGuesses(guessesCopy);
       }
     }
-  }
+  };
 
-  handleSubmitGuess() {
-    const guesses = this.state.guesses.slice();
-    const currentGuessIndex = this.state.currentGuessIndex;
+  const handleSubmitGuess = () => {
     if (
       currentGuessIndex < MAX_GUESSES &&
       guesses[currentGuessIndex].length === LEN_WORDS &&
-      VALID_GUESSES.has(guesses[currentGuessIndex])
+      validGuesses.has(guesses[currentGuessIndex])
     ) {
-      if (guesses[currentGuessIndex] === this.state.answer) {
+      if (guesses[currentGuessIndex] === answer) {
         // game is won
         // TODO replace alert with something better, that also enables Tile colors to update
         alert("Congrats, you win!");
         // hack to disable further interactions
-        this.setState({
-          currentGuessIndex: MAX_GUESSES,
-        });
+        setCurrentGuessIndex(MAX_GUESSES);
       } else {
         if (currentGuessIndex + 1 === MAX_GUESSES) {
           // game is lost
-          alert(`Unlucky. The answer is ${this.state.answer}`);
+          alert(`Unlucky. The answer is ${answer}`);
         }
-        this.setState({
-          currentGuessIndex: currentGuessIndex + 1,
-        });
+        setCurrentGuessIndex(currentGuessIndex + 1);
       }
     }
-  }
+  };
 
-  render() {
-    return (
-      <>
-        <div
-          onKeyPress={(event) => {
-            this.handleKeyboardInput(event);
-          }}
-          onKeyDown={(event) => {
-            this.handleBackspace(event);
+  return (
+    <>
+      <div
+        onKeyPress={(event) => {
+          handleKeyboardInput(event);
+        }}
+        onKeyDown={(event) => {
+          handleBackspace(event);
+        }}
+      >
+        {times(MAX_GUESSES, (i) => (
+          <Row
+            key={i}
+            answer={answer}
+            guess={guesses[i]}
+            showColor={i < currentGuessIndex}
+          />
+        ))}
+      </div>
+      <div className="submit-guess-button">
+        <button
+          className={
+            validGuesses && answer && currentGuessIndex < MAX_GUESSES
+              ? "submit-guess-enabled"
+              : "submit-guess-disabled"
+          }
+          onClick={() => {
+            handleSubmitGuess();
           }}
         >
-          {times(MAX_GUESSES, (i) => (
-            <Row
-              key={i}
-              answer={this.state.answer}
-              guess={this.state.guesses[i]}
-              showColor={i < this.state.currentGuessIndex}
-            />
-          ))}
-        </div>
-        <div className="submit-guess-button">
-          <button
-            className="submit-guess"
-            onClick={() => {
-              this.handleSubmitGuess();
-            }}
-          >
-            Submit guess
-          </button>
-        </div>
-      </>
-    );
-  }
+          Submit guess
+        </button>
+      </div>
+    </>
+  );
 }
 
 // ========================================
