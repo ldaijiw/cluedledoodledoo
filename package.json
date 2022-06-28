@@ -4,6 +4,8 @@
   "description": "wordle with clues",
   "main": "server/index.js",
   "scripts": {
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,6 +16,9 @@
     "wordle",
     "cluedle"
   ],
+  "engines": {
+    "node": "16.15.0"
+  },
   "author": "Omer Baddour",
   "license": "ISC",
   "bugs": {
