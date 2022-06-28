@@ -1,0 +1,23 @@
+{
+  "name": "cluedle",
+  "version": "1.0.0",
+  "description": "wordle with clues",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmerBaddour/cluedledoodledoo.git"
+  },
+  "keywords": [
+    "wordle",
+    "cluedle"
+  ],
+  "author": "Omer Baddour",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OmerBaddour/cluedledoodledoo/issues"
+  },
+  "homepage": "https://github.com/OmerBaddour/cluedledoodledoo#readme"
+}
