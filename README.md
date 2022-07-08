@@ -4,7 +4,7 @@ This started out as an attempt to re-create [Wordle](https://www.nytimes.com/gam
 
 # Notable Versions
 
-- [MVP of original Wordle](https://github.com/OmerBaddour/cluedledoodledoo/tree/071dbf9854fef81398e113a8976cfed806084efd)
+- [MVP of original Wordle](https://github.com/OmerBaddour/cluedledoodledoo/tree/4c984462c9b5ed71af29d47eb48232b0795547be)
 
 # Data
 
