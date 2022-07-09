@@ -22,7 +22,15 @@ class Tile extends React.Component {
           transition: this.props.showColor ? "background-color 1s" : "none",
         }}
       >
-        {this.props.char}
+        <div
+          style={{
+            animation: this.props.showColor
+              ? `${this.props.animationName} 1s linear`
+              : "none",
+          }}
+        >
+          {this.props.char}
+        </div>
       </button>
     );
   }
@@ -58,6 +66,13 @@ class Row extends React.Component {
             char={this.props.guess?.[i]}
             showColor={this.props.showColor}
             color={tileColors[i]}
+            animationName={
+              tileColors.includes(COLORS.GREEN)
+                ? "blinker-green"
+                : tileColors.includes(COLORS.YELLOW)
+                ? "blinker-yellow"
+                : "blinker-red"
+            }
           />
         ))}
       </div>
