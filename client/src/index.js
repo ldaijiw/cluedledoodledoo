@@ -145,7 +145,7 @@ function Game() {
 
   return (
     <>
-      <div className="title">Wordle MVP</div>
+      <div className="title">Cluedledoodledoo</div>
       <div
         onKeyPress={(event) => {
           handleKeyboardInput(event);
