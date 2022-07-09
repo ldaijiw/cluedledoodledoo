@@ -19,30 +19,13 @@
   width: 34px;
 }
 
-.submit-guess-button {
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.submit-guess-enabled {
-  background: #090;
-  border: 1px solid #070;
-  width: 100px;
-  cursor: pointer;
-}
-
-.submit-guess-disabled {
-  background: rgb(128, 129, 128);
-  border: 1px solid rgb(0, 0, 0);
-  width: 100px;
-  cursor: pointer;
-}
-
 .row {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+*:focus {
+  outline: none;
 }
