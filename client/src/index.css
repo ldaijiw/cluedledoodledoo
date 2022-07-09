@@ -19,6 +19,29 @@
   width: 34px;
 }
 
+@keyframes blinker-green {
+  50% {
+    color: #090;
+    opacity: 0.5;
+  }
+}
+
+@keyframes blinker-yellow {
+  50% {
+    color: #FF0;
+    opacity: 0.5;
+  }
+}
+  
+@keyframes blinker-red {
+  50% {
+    color: #F00;
+    opacity: 0.5;
+  }
+}
+
+
+
 .row {
   display: flex;
   flex-direction: row;
