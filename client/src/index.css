@@ -19,6 +19,10 @@
   width: 34px;
 }
 
+.tile-text {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 @keyframes blinker-green {
   50% {
     color: #090;

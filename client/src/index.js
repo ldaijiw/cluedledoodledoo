@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { sample, times } from "lodash";
@@ -15,7 +15,7 @@ const COLORS = {
 class Tile extends React.Component {
   render() {
     return (
-      <button
+      <div
         className="tile"
         style={{
           backgroundColor: this.props.color,
@@ -23,6 +23,7 @@ class Tile extends React.Component {
         }}
       >
         <div
+          className="tile-text"
           style={{
             animation: this.props.showColor
               ? `${this.props.animationName} 1s linear`
@@ -31,7 +32,7 @@ class Tile extends React.Component {
         >
           {this.props.char}
         </div>
-      </button>
+      </div>
     );
   }
 }
@@ -86,6 +87,7 @@ function Game() {
   const [answerCharCounts, setAnswerCharCounts] = useState({});
   const [guesses, setGuesses] = useState(Array(MAX_GUESSES).fill(""));
   const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
+  const gameInputRef = useRef(null);
 
   useEffect(() => {
     axios.get("/validAnswers").then((res) => {
@@ -106,6 +108,7 @@ function Game() {
       setValidGuesses(setAnswers);
     });
 
+    gameInputRef.current.focus();
     // eslint-disable-next-line
   }, []);
 
@@ -168,6 +171,8 @@ function Game() {
         onKeyDown={(event) => {
           handleBackspace(event);
         }}
+        ref={gameInputRef}
+        tabIndex={0}
       >
         {times(MAX_GUESSES, (i) => (
           <Row
