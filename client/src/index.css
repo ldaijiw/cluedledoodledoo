@@ -5,6 +5,17 @@
     align-items: center;
 }
 
+*:focus {
+  outline: none;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .tile {
   border: 1px solid #999;
   float: left;
@@ -44,15 +55,12 @@
   }
 }
 
-
-
-.row {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+.game-won-modal .modal-content {
+  background: radial-gradient(circle, #0F0 0%, #090 100%);
+  color: #000;
 }
 
-*:focus {
-  outline: none;
+.game-lost-modal .modal-content {
+  background: radial-gradient(circle, #F00 0%, #900 100%);
+  color: #FFF;
 }
