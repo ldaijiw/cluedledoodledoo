@@ -239,7 +239,6 @@ function Game() {
           />
         ))}
       </div>
-      {console.log(answer)}
       {renderResultsModal()}
     </>
   );
