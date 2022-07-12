@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { sample, times } from "lodash";
+import React, { useEffect, useRef, useState } from "react";
+import Modal from "react-bootstrap/Modal";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { sample, times } from "lodash";
-import axios from "axios";
 
 const LEN_WORDS = 5;
 const MAX_GUESSES = 6;
@@ -82,11 +84,19 @@ class Row extends React.Component {
 }
 
 function Game() {
+  const [guessedAnswer, setGuessedAnswer] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+
   const [validGuesses, setValidGuesses] = useState(undefined);
+
   const [answer, setAnswer] = useState("");
   const [answerCharCounts, setAnswerCharCounts] = useState({});
+
   const [guesses, setGuesses] = useState(Array(MAX_GUESSES).fill(""));
   const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
+
+  const [showResultsModal, setShowResultsModal] = useState(false);
+
   const gameInputRef = useRef(null);
 
   useEffect(() => {
@@ -113,7 +123,7 @@ function Game() {
   }, []);
 
   const handleKeyboardInput = (event) => {
-    if (currentGuessIndex < MAX_GUESSES) {
+    if (!gameOver) {
       if (/[a-zA-Z]/.test(event.key) && event.key.length === 1) {
         if (guesses[currentGuessIndex].length < LEN_WORDS) {
           const guessesCopy = guesses.slice();
@@ -127,7 +137,7 @@ function Game() {
   };
 
   const handleBackspace = (event) => {
-    if (currentGuessIndex < MAX_GUESSES && event.key === "Backspace") {
+    if (!gameOver && event.key === "Backspace") {
       if (guesses[currentGuessIndex].length > 0) {
         const guessesCopy = guesses.slice();
         guessesCopy[currentGuessIndex] = guesses[currentGuessIndex].slice(
@@ -141,24 +151,69 @@ function Game() {
 
   const handleSubmitGuess = () => {
     if (
-      currentGuessIndex < MAX_GUESSES &&
+      !gameOver &&
       guesses[currentGuessIndex].length === LEN_WORDS &&
       validGuesses.has(guesses[currentGuessIndex])
     ) {
       if (guesses[currentGuessIndex] === answer) {
-        // game is won
-        // TODO replace alert with something better, that also enables Tile colors to update
-        alert("Congrats, you win!");
-        // hack to disable further interactions
-        setCurrentGuessIndex(MAX_GUESSES);
-      } else {
-        if (currentGuessIndex + 1 === MAX_GUESSES) {
-          // game is lost
-          alert(`Unlucky. The answer is ${answer}`);
-        }
-        setCurrentGuessIndex(currentGuessIndex + 1);
+        setGuessedAnswer(true);
+        setGameOver(true);
+        setShowResultsModal(true);
+      } else if (currentGuessIndex + 1 === MAX_GUESSES) {
+        setGameOver(true);
+        setShowResultsModal(true);
       }
+      setCurrentGuessIndex(currentGuessIndex + 1);
     }
+  };
+
+  const renderResultsModal = () => {
+    const gameWonDescriptors = [
+      "Holy shit",
+      "Incredible",
+      "Wow",
+      "Congrats",
+      "Nice",
+      "Phew",
+    ];
+    if (guessedAnswer) {
+      // game won
+      return (
+        <Modal
+          show={showResultsModal}
+          onHide={() => {
+            setShowResultsModal(false);
+          }}
+          className="game-won-modal"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>You got it!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {gameWonDescriptors[currentGuessIndex - 1]}! You found {answer} in{" "}
+            {currentGuessIndex} guess
+            {currentGuessIndex === 1 ? "" : "es"}!
+          </Modal.Body>
+        </Modal>
+      );
+    } else if (gameOver) {
+      // game lost
+      return (
+        <Modal
+          show={showResultsModal}
+          onHide={() => {
+            setShowResultsModal(false);
+          }}
+          className="game-lost-modal"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Unlucky!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>The answer is {answer}.</Modal.Body>
+        </Modal>
+      );
+    }
+    return null;
   };
 
   return (
@@ -184,6 +239,8 @@ function Game() {
           />
         ))}
       </div>
+      {console.log(answer)}
+      {renderResultsModal()}
     </>
   );
 }
