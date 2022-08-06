@@ -39,6 +39,33 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.clue {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 40px;
+  width: 130px;
+  border: 2px solid black;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clue-enabled {
+  cursor: pointer;
+  /* rainbow credit: https://stackoverflow.com/questions/41099739/how-to-change-background-color-continuously-without-refreshing-the-page */
+  background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2d21db, #dd00f3, #dd00f3);
+  background-size: 1800% 1800%;
+  animation: rainbow 18s ease infinite;
+}
+
+.clue-disabled {
+  background: #999;
+  text-decoration: line-through;
+  text-decoration-color: #F00;
+}
+
 @keyframes blinker-green {
   50% {
     color: #090;
@@ -57,6 +84,18 @@
   50% {
     color: #F00;
     opacity: 0.5;
+  }
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% 82%
+  }
+  50% {
+    background-position: 100% 19%
+  }
+  100% {
+    background-position: 0% 82%
   }
 }
 
