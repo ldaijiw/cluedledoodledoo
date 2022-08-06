@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { LEN_WORDS, MAX_GUESSES } from "../constants";
 import "../index.css";
+import Clue from "./clue.js";
 import Row from "./row.js";
 
 function Game() {
@@ -91,6 +92,16 @@ function Game() {
     }
   };
 
+  const useSynonymClue = () => {
+    const guessesCopy = guesses.slice();
+    guessesCopy[currentGuessIndex] = "x".repeat(LEN_WORDS);
+    guessesCopy[currentGuessIndex + 1] = "x".repeat(LEN_WORDS);
+    setGuesses(guessesCopy);
+    setCurrentGuessIndex(currentGuessIndex + 2);
+    // TODO debug focus
+    gameInputRef.current.focus();
+  };
+
   const renderResultsModal = () => {
     const gameWonDescriptors = [
       "Holy shit",
@@ -163,6 +174,11 @@ function Game() {
           />
         ))}
       </div>
+      <Clue
+        answer={answer}
+        currentGuessIndex={currentGuessIndex}
+        useSynonymClue={useSynonymClue}
+      />
       {renderResultsModal()}
     </>
   );
