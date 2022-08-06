@@ -1,5 +1,9 @@
 .title {
-    margin-bottom: 12px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 42px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,17 +21,17 @@
 }
 
 .tile {
-  border: 1px solid #999;
+  border: 2px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 48px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
+  line-height: 60px;
+  height: 64px;
+  margin-right: -2px;
+  margin-top: -2px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 64px;
 }
 
 .tile-text {
