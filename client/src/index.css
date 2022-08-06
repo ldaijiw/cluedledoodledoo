@@ -1,12 +1,13 @@
 .title {
     margin-top: 20px;
     margin-bottom: 20px;
-    font-size: 36px;
+    font-size: 44px;
     font-weight: bold;
-    line-height: 42px;
+    line-height: 54px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: Snell Roundhand, cursive;
 }
 
 *:focus {
