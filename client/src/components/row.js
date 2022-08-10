@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { times } from "lodash";
 import React from "react";
-import { COLORS, LEN_WORDS } from "../constants";
+import { COLORS, LEN_WORDS } from "../data/constants";
 import "../index.css";
 import Tile from "./tile.js";
 
