@@ -1,3 +1,8 @@
+// TODO this component is practically useless since the synonym API is trash (https://api.dictionaryapi.dev/api/v2/entries/en/${props.answer}`)
+// the quality of synonyms probably honestly provides more confusion than guidance
+// find a better API and this can be used again
+// can also use this API for other clue paradigms, such as dictionary definition
+
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from "react";
