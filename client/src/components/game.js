@@ -1,9 +1,10 @@
-import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { sample, times } from "lodash";
 import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { LEN_WORDS, MAX_GUESSES } from "../data/constants";
+import { VALID_ANSWERS } from "../data/validAnswers";
+import { VALID_GUESSES } from "../data/validGuesses";
 import "../index.css";
 import CrosswordClue from "./crosswordClue";
 import Row from "./row.js";
@@ -11,8 +12,6 @@ import Row from "./row.js";
 function Game() {
   const [guessedAnswer, setGuessedAnswer] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-
-  const [validGuesses, setValidGuesses] = useState(undefined);
 
   const [answer, setAnswer] = useState("");
   const [answerCharCounts, setAnswerCharCounts] = useState({});
@@ -24,24 +23,18 @@ function Game() {
 
   const gameInputRef = useRef(null);
 
+  // initialize game
   useEffect(() => {
-    axios.get("/validAnswers").then((res) => {
-      const game_answer = sample(res.data.validAnswers);
-      setAnswer(game_answer);
+    const gameAnswer = sample(VALID_ANSWERS);
+    setAnswer(gameAnswer);
 
-      // compute count of each char in answer
-      // https://nick3499.medium.com/javascript-populate-hash-table-with-string-character-counts-36459a41afe0
-      const char_to_count = {};
-      game_answer.split("").forEach((char) => {
-        char_to_count[char] = (char_to_count[char] || 0) + 1;
-      });
-      setAnswerCharCounts(char_to_count);
+    // compute count of each char in answer
+    // https://nick3499.medium.com/javascript-populate-hash-table-with-string-character-counts-36459a41afe0
+    const charToCount = {};
+    gameAnswer.split("").forEach((char) => {
+      charToCount[char] = (charToCount[char] || 0) + 1;
     });
-
-    axios.get("/validGuesses").then((res) => {
-      const setAnswers = new Set(res.data.validGuesses);
-      setValidGuesses(setAnswers);
-    });
+    setAnswerCharCounts(charToCount);
 
     gameInputRef.current.focus();
     // eslint-disable-next-line
@@ -78,7 +71,7 @@ function Game() {
     if (
       !gameOver &&
       guesses[currentGuessIndex].length === LEN_WORDS &&
-      validGuesses.has(guesses[currentGuessIndex])
+      VALID_GUESSES.has(guesses[currentGuessIndex])
     ) {
       if (guesses[currentGuessIndex] === answer) {
         setGuessedAnswer(true);
@@ -98,7 +91,7 @@ function Game() {
     guessesCopy[currentGuessIndex + 1] = "x".repeat(LEN_WORDS);
     setGuesses(guessesCopy);
     setCurrentGuessIndex(currentGuessIndex + 2);
-    // TODO debug focus
+    // TODO debug focus not working
     gameInputRef.current.focus();
   };
 
