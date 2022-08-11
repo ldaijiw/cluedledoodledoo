@@ -3,9 +3,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { sample, times } from "lodash";
 import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { LEN_WORDS, MAX_GUESSES } from "../constants";
+import { LEN_WORDS, MAX_GUESSES } from "../data/constants";
 import "../index.css";
-import Clue from "./clue.js";
+import CrosswordClue from "./crosswordClue";
 import Row from "./row.js";
 
 function Game() {
@@ -92,7 +92,7 @@ function Game() {
     }
   };
 
-  const useSynonymClue = () => {
+  const useCrosswordClue = () => {
     const guessesCopy = guesses.slice();
     guessesCopy[currentGuessIndex] = "x".repeat(LEN_WORDS);
     guessesCopy[currentGuessIndex + 1] = "x".repeat(LEN_WORDS);
@@ -174,10 +174,15 @@ function Game() {
           />
         ))}
       </div>
-      <Clue
+      {/* <SynonymClue
         answer={answer}
         currentGuessIndex={currentGuessIndex}
         useSynonymClue={useSynonymClue}
+      /> */}
+      <CrosswordClue
+        answer={answer}
+        currentGuessIndex={currentGuessIndex}
+        useCrosswordClue={useCrosswordClue}
       />
       {renderResultsModal()}
     </>

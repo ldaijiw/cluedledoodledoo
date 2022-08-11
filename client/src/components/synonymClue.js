@@ -3,13 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { MAX_GUESSES } from "../constants";
+import { MAX_GUESSES } from "../data/constants";
 import "../index.css";
 
 const NO_SYNONYM_MSG =
   "Either the answer has no synonyms, or all synonyms contain the answer. No penalty.";
 
-function Clue(props) {
+function SynonymClue(props) {
   const [showGetClueModal, setShowGetClueModal] = useState(false);
   const [showClueResultModal, setShowClueResultModal] = useState(false);
   const [clueResult, setClueResult] = useState(NO_SYNONYM_MSG); // set to failure state as fallback. is overwritten in case of success
@@ -141,4 +141,4 @@ function Clue(props) {
   );
 }
 
-export default Clue;
+export default SynonymClue;
