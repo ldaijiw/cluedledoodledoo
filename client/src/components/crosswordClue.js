@@ -107,12 +107,12 @@ function CrosswordClue(props) {
           >
             Crossword clue
           </div>
-          {renderGetCrosswordClueModal()}
-          {renderCrosswordClueResultModal()}
         </>
       ) : (
         <div className="clue clue-disabled">Crossword clue</div>
       )}
+      {renderGetCrosswordClueModal()}
+      {renderCrosswordClueResultModal()}
     </>
   );
 }
