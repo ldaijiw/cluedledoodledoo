@@ -145,7 +145,7 @@ function Game() {
   };
 
   return (
-    <>
+    <div className="game">
       <div className="title">Cluedledoodledoo</div>
       <div
         onKeyPress={(event) => {
@@ -178,7 +178,7 @@ function Game() {
         useCrosswordClue={useCrosswordClue}
       />
       {renderResultsModal()}
-    </>
+    </div>
   );
 }
 
