@@ -12,6 +12,8 @@ The full list of legal answers is all five character words in [this list of comm
 
 The full list of legal guesses is equivalent to that of wordle, and can be found [here](https://github.com/tabatkins/wordle-list/blob/main/words).
 
+Crossword clues to all answers were scraped from [crosswordtracker](http://crosswordtracker.com/). See [/scripts/data/answer_to_clues.pickle](https://github.com/OmerBaddour/cluedledoodledoo/blob/main/scripts/data/answer_to_clues.pickle) for a [pickled](https://docs.python.org/3/library/pickle.html) Python dictionary of the form `{ Cluedle answer : list of crossword clues }`, which mitigates the need for further scraping. See [/scripts/crosswordtracker_scraper.ipynb](https://github.com/OmerBaddour/cluedledoodledoo/blob/main/scripts/crosswordtracker_scraper.ipynb) for the scraper.
+
 # Useful Commands
 
 ## Development
