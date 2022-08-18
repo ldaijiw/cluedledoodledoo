@@ -1,7 +1,7 @@
 export const LEN_WORDS = 5;
 export const MAX_GUESSES = 6;
 export const COLORS = {
-  WHITE: "#FFF",
-  YELLOW: "#FF0",
+  BLACK: "#121212",
+  YELLOW: "#EBD021",
   GREEN: "#090",
 };

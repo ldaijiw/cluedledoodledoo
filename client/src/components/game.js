@@ -91,7 +91,6 @@ function Game() {
     guessesCopy[currentGuessIndex + 1] = "x".repeat(LEN_WORDS);
     setGuesses(guessesCopy);
     setCurrentGuessIndex(currentGuessIndex + 2);
-    // TODO debug focus not working
     gameInputRef.current.focus();
   };
 
@@ -145,7 +144,7 @@ function Game() {
   };
 
   return (
-    <>
+    <div className="game">
       <div className="title">Cluedledoodledoo</div>
       <div
         onKeyPress={(event) => {
@@ -178,7 +177,7 @@ function Game() {
         useCrosswordClue={useCrosswordClue}
       />
       {renderResultsModal()}
-    </>
+    </div>
   );
 }
 

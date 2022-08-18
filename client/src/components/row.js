@@ -7,7 +7,7 @@ import Tile from "./tile.js";
 
 class Row extends React.Component {
   render() {
-    let tileColors = Array(LEN_WORDS).fill(COLORS.WHITE);
+    let tileColors = Array(LEN_WORDS).fill(COLORS.BLACK);
 
     if (this.props.showColor) {
       let answerCharCounts = { ...this.props.answerCharCounts };
