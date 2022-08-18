@@ -91,7 +91,6 @@ function Game() {
     guessesCopy[currentGuessIndex + 1] = "x".repeat(LEN_WORDS);
     setGuesses(guessesCopy);
     setCurrentGuessIndex(currentGuessIndex + 2);
-    // TODO debug focus not working
     gameInputRef.current.focus();
   };
 
