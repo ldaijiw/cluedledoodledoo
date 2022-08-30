@@ -56,7 +56,6 @@ function Game() {
     setWeekDayIndexUponStarting(new Date().getDay());
 
     gameInputRef.current.focus();
-    // eslint-disable-next-line
   };
 
   // invoke initialize game once at beginning
