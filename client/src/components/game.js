@@ -111,8 +111,8 @@ function Game() {
 
   const useCrosswordClue = () => {
     const guessesCopy = guesses.slice();
-    guessesCopy[currentGuessIndex] = "x".repeat(LEN_WORDS);
-    guessesCopy[currentGuessIndex + 1] = "x".repeat(LEN_WORDS);
+    guessesCopy[currentGuessIndex] = "-".repeat(LEN_WORDS);
+    guessesCopy[currentGuessIndex + 1] = "-".repeat(LEN_WORDS);
     setGuesses(guessesCopy);
     setCurrentGuessIndex(currentGuessIndex + 2);
     gameInputRef.current.focus();
