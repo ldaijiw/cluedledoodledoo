@@ -86,7 +86,7 @@ function SetGameMode(props) {
           props.currentMode === "DAILY"
             ? {
                 background:
-                  COLORS_FOR_DAYS_OF_WEEK[props.weekIndexUponStarting],
+                  COLORS_FOR_DAYS_OF_WEEK[props.weekDayIndexUponStarting],
               }
             : {}
         }
