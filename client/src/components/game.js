@@ -8,6 +8,7 @@ import { VALID_GUESSES } from "../data/validGuesses";
 import "../index.css";
 import CrosswordClue from "./crosswordClue";
 import Row from "./row.js";
+import SetGameMode from "./setGameMode";
 
 function Game() {
   const [guessedAnswer, setGuessedAnswer] = useState(false);
@@ -19,13 +20,25 @@ function Game() {
   const [guesses, setGuesses] = useState(Array(MAX_GUESSES).fill(""));
   const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
 
+  const [currentMode, setCurrentMode] = useState("DAILY"); // can be "DAILY", "RANDOM"
+  const [weekDayIndexUponStarting, setWeekDayIndexUponStarting] = useState(
+    new Date().getDay()
+  );
+
   const [showResultsModal, setShowResultsModal] = useState(false);
 
   const gameInputRef = useRef(null);
 
-  // initialize game
-  useEffect(() => {
-    const gameAnswer = sample(VALID_ANSWERS);
+  // define initialize game
+  const initializeGame = (gameMode) => {
+    setCurrentMode(gameMode);
+    let gameAnswer;
+    if (gameMode === "DAILY") {
+      const dayNumber = Math.floor(new Date() / 8.64e7); // 8.64e7 is number of ms in a day
+      gameAnswer = VALID_ANSWERS[dayNumber % VALID_ANSWERS.length];
+    } else if (gameMode === "RANDOM") {
+      gameAnswer = sample(VALID_ANSWERS);
+    }
     setAnswer(gameAnswer);
 
     // compute count of each char in answer
@@ -36,8 +49,20 @@ function Game() {
     });
     setAnswerCharCounts(charToCount);
 
+    setGuessedAnswer(false);
+    setGameOver(false);
+    setGuesses(Array(MAX_GUESSES).fill(""));
+    setCurrentGuessIndex(0);
+    setWeekDayIndexUponStarting(new Date().getDay());
+
     gameInputRef.current.focus();
     // eslint-disable-next-line
+  };
+
+  // invoke initialize game once at beginning
+  useEffect(() => {
+    initializeGame(currentMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleKeyboardInput = (event) => {
@@ -145,7 +170,16 @@ function Game() {
 
   return (
     <div className="game">
-      <div className="title">Cluedledoodledoo</div>
+      <div className="title-and-mode">
+        <div className="title">Cluedledoodledoo</div>
+        <SetGameMode
+          initializeGame={initializeGame}
+          currentMode={currentMode}
+          currentGuessIndex={currentGuessIndex}
+          gameOver={gameOver}
+          weekDayIndexUponStarting={weekDayIndexUponStarting}
+        />
+      </div>
       <div
         onKeyPress={(event) => {
           handleKeyboardInput(event);
