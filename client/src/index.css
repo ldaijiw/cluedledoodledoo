@@ -8,6 +8,11 @@
   background-color: #121212;
 }
 
+.title-and-mode {
+  display: flex;
+  align-items: center;
+}
+
 .title {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -21,11 +26,6 @@
     justify-content: center;
     align-items: center;
     font-family: Snell Roundhand, cursive;
-}
-
-.title-and-mode {
-  display: flex;
-  align-items: center;
 }
 
 .game-mode {
