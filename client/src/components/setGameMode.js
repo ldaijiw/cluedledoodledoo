@@ -10,18 +10,21 @@ function SetGameMode(props) {
     showChangeInProgressGameModeModal,
     setShowChangeInProgressGameModeModal,
   ] = useState(false);
+  const [showNewGameModeModal, setShowNewGameModeModal] = useState(false);
+  const [nextGameMode, setNextGameMode] = useState(props.currentMode);
 
-  const getNewMode = () => {
-    return props.currentMode === "DAILY" ? "RANDOM" : "DAILY";
-  };
-
-  const changeGameMode = () => {
-    if (props.currentGuessIndex > 0 && !props.gameOver) {
-      setShowChangeInProgressGameModeModal(true);
-      console.log("show modal");
-      console.log(showChangeInProgressGameModeModal);
+  const startNewGame = (newGameMode) => {
+    // TODO only use one of nextGameMode, newGameMode
+    // calling setNextGameMode() with new mode before all calls of startNewGame() requires double clicking the game mode buttons, probably due re-rendering issues
+    setNextGameMode(newGameMode);
+    if (props.currentGuessIndex > 0) {
+      if (!props.gameOver) {
+        setShowChangeInProgressGameModeModal(true);
+      } else {
+        setShowNewGameModeModal(true);
+      }
     } else {
-      props.initializeGame(getNewMode());
+      props.initializeGame(newGameMode);
     }
   };
 
@@ -54,10 +57,46 @@ function SetGameMode(props) {
             className="btn btn-danger"
             onClick={() => {
               setShowChangeInProgressGameModeModal(false);
-              props.initializeGame(getNewMode());
+              props.initializeGame(nextGameMode);
             }}
           >
             Abandon ship
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  };
+
+  const renderNewGameModeModal = () => {
+    return (
+      <Modal
+        show={showNewGameModeModal}
+        onHide={() => {
+          setShowNewGameModeModal(false);
+        }}
+        // TODO implement class, add className
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>New game</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Would you like to play another game?</Modal.Body>
+        <Modal.Footer>
+          <Button
+            className="btn btn-success"
+            onClick={() => {
+              setShowNewGameModeModal(false);
+              props.initializeGame(nextGameMode);
+            }}
+          >
+            New game
+          </Button>
+          <Button
+            className="btn btn-danger"
+            onClick={() => {
+              setShowNewGameModeModal(false);
+            }}
+          >
+            Stay here
           </Button>
         </Modal.Footer>
       </Modal>
@@ -79,7 +118,7 @@ function SetGameMode(props) {
           props.currentMode === "DAILY"
             ? () => {}
             : () => {
-                changeGameMode();
+                startNewGame("DAILY");
               }
         }
         style={
@@ -99,13 +138,9 @@ function SetGameMode(props) {
         Daily
       </div>
       <div
-        onClick={
-          props.currentMode === "RANDOM"
-            ? () => {}
-            : () => {
-                changeGameMode();
-              }
-        }
+        onClick={() => {
+          startNewGame("RANDOM");
+        }}
         className={
           props.currentMode === "RANDOM"
             ? "game-mode game-mode-selected game-mode-random"
@@ -115,6 +150,7 @@ function SetGameMode(props) {
         Random
       </div>
       {renderChangeInProgressGameModeModal()}
+      {renderNewGameModeModal()}
     </div>
   );
 }
