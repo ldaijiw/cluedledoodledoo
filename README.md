@@ -2,6 +2,8 @@
 
 This started out as an attempt to re-create [Wordle](https://www.nytimes.com/games/wordle/index.html) as a way to improve my full-stack skills. I then had an idea for a fun type of twist -- trading guesses for clues. I present to you, Cluedle.
 
+As of writing, the game is hosted publicly [here](https://cluedledoodledoo.herokuapp.com/).
+
 # Notable Versions
 
 - [MVP of original Wordle](https://github.com/OmerBaddour/cluedledoodledoo/tree/4c984462c9b5ed71af29d47eb48232b0795547be)
