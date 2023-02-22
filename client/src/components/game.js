@@ -2,12 +2,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { sample, times } from "lodash";
 import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { LEN_WORDS, MAX_GUESSES } from "../data/constants";
+import { LEN_WORDS, MAX_GUESSES, KEYBOARD } from "../data/constants";
 import { VALID_ANSWERS } from "../data/validAnswers";
 import { VALID_GUESSES } from "../data/validGuesses";
 import "../index.css";
 import CrosswordClue from "./crosswordClue";
 import Row from "./row.js";
+import Keyboard from "./keyboard.js";
 import SetGameMode from "./setGameMode";
 
 function Game() {
@@ -204,11 +205,18 @@ function Game() {
         currentGuessIndex={currentGuessIndex}
         useSynonymClue={useSynonymClue}
       /> */}
-      <CrosswordClue
-        answer={answer}
-        currentGuessIndex={currentGuessIndex}
-        useCrosswordClue={useCrosswordClue}
-      />
+      <div>
+        <CrosswordClue
+          answer={answer}
+          currentGuessIndex={currentGuessIndex}
+          useCrosswordClue={useCrosswordClue}
+        />
+      </div>
+      <div>
+        {times(Object.keys(KEYBOARD).length, (i) => (
+          <Keyboard key={i} letters={KEYBOARD[i]} />
+        ))}
+      </div>
       {renderResultsModal()}
     </div>
   );
